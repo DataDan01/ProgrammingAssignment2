@@ -1,15 +1,40 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Create the special vector
 
-## Write a short comment describing this function
+makeMatrix <- function(q = matrix()) {
 
-makeCacheMatrix <- function(x = matrix()) {
-
+  inv = NULL
+  set = function(w) {
+    q <<- w
+    inv <<- NULL
+  }
+  get = function() q
+  
+  setinv = function(inverse) inv <<- inverse 
+  
+  getinv = function() inv
+  
+  list(set=set, 
+       get=get, 
+       setinv=setinv, 
+       getinv=getinv)
 }
 
 
-## Write a short comment describing this function
+## Calculates inverse of a matrix
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheInverse <- function(q, ...) {
+  
+  inv = q$getinv()
+  
+  if (!is.null(inv)){
+    message("Retrieving cached data...")
+    return(inv)
+  }
+  
+  mat.data = q$get()
+  inv = solve(mat.data, ...)
+  
+  q$setinv(inv)
+  
+  return(inv)
 }
